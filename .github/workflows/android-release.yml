@@ -1,0 +1,40 @@
+name: Gerar APK e AAB assinados
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preparar Android SDK
+        run: sdkmanager "platforms;android-36" "build-tools;35.0.0"
+      - name: Compilar e verificar assinaturas
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: bash tools/build-signed.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Status-Download-AAB-assinado
+          path: app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v7
+        with:
+          name: Status-Download-APK-assinado
+          path: app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
