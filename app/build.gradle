@@ -11,18 +11,18 @@ if (!signingEnabled && (providers.gradleProperty('statusRequireSigning').isPrese
 }
 
 android {
-    namespace 'com.toxic.whatssaver'
+    namespace 'com.toxic.status'
     compileSdk 36
     buildToolsVersion '35.0.0'
     buildFeatures { buildConfig true }
     bundle { language { enableSplit = false } }
     defaultConfig {
-        applicationId 'com.toxic.whatssaver'
+        applicationId 'com.toxic.status'
         minSdk 24
         targetSdk 36
         versionCode 4
         versionName '1.3'
-        testInstrumentationRunner 'com.toxic.whatssaver.SmokeInstrumentation'
+        testInstrumentationRunner 'com.toxic.status.SmokeInstrumentation'
     }
     signingConfigs {
         if (signingEnabled) {

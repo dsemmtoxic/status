@@ -49,7 +49,7 @@ O APK de teste é gerado em `app/build/outputs/apk/debug/app-debug.apk`.
 
 ## GitHub Actions e Play Console
 
-Envie ao repositório o conteúdo do ZIP **do projeto**, com `.github`, `app` e `gradlew` na raiz. A versão inicial preparada para publicação é **1.3 (versionCode 4)**, com nome **Status Download** e identificador `com.toxic.whatssaver`. Aumente o `versionCode` em `app/build.gradle` a cada novo envio à Play Console.
+Envie ao repositório o conteúdo do ZIP **do projeto**, com `.github`, `app` e `gradlew` na raiz. A versão inicial preparada para publicação é **1.3 (versionCode 4)**, com nome **Status Download** e identificador `com.toxic.status`. Aumente o `versionCode` em `app/build.gradle` a cada novo envio à Play Console.
 
 1. Abra **Settings → Secrets and variables → Actions** no repositório.
 2. Crie os quatro **Repository secrets** abaixo com os valores do ZIP privado. O nome do secret é o nome do respectivo arquivo sem `.txt`.
@@ -81,7 +81,7 @@ Com um emulador Android 10 ou superior:
 ./gradlew :app:assembleDebug :app:assembleDebugAndroidTest
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-adb shell am instrument -w com.toxic.whatssaver.test/com.toxic.whatssaver.SmokeInstrumentation
+adb shell am instrument -w com.toxic.status.test/com.toxic.status.SmokeInstrumentation
 ```
 
 A suíte verifica cópia e leitura na galeria, prevenção de duplicatas, compartilhamento, persistência da sessão, zoom, navegação, brilho, volume, avanço/retrocesso e exclusão preservando a origem. As mídias de teste ficam exclusivamente no APK de testes. A verificação `-e suite storage` também verifica a descoberta de múltiplas contas usando a autorização real concedida no seletor do Android; requer as pastas de teste preparadas no emulador.
@@ -95,8 +95,8 @@ python3 tools/prepare-emulator-fixtures.py
 Abra o app e conceda acesso à pasta principal WhatsApp pelo seletor do Android. Com a preferência de idioma em **Idioma do dispositivo**, execute:
 
 ```bash
-adb shell am instrument -w -e suite interface com.toxic.whatssaver.test/com.toxic.whatssaver.SmokeInstrumentation
-adb shell am instrument -w -e suite storage -e images 13 com.toxic.whatssaver.test/com.toxic.whatssaver.SmokeInstrumentation
+adb shell am instrument -w -e suite interface com.toxic.status.test/com.toxic.status.SmokeInstrumentation
+adb shell am instrument -w -e suite storage -e images 13 com.toxic.status.test/com.toxic.status.SmokeInstrumentation
 ```
 
 A verificação da interface confirma o idioma inicial, resolve traduções nos 12 idiomas, envia gestos reais para o paginador e confere a posição da duração e a atualização da borda ao salvar/excluir uma cópia. As pastas preparadas incluem a estrutura antiga e as contas 1002 e 1007.
